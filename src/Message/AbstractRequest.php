@@ -6,8 +6,8 @@ use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 
 abstract class AbstractRequest extends BaseAbstractRequest
 {
-    protected $liveEndpoint = 'https://api.example.com';
-    protected $testEndpoint = 'https://api-test.example.com';
+    protected $liveEndpoint = 'https://api.secure-afterpay.com.au/v1/';
+    protected $testEndpoint = 'https://api-sandbox.secure-afterpay.com.au/v1/';
 
     /**
      * @return mixed
