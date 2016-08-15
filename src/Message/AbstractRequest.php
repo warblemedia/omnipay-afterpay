@@ -25,7 +25,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
     public function sendData($data)
     {
-        $url = $this->getEndpoint().'?'.http_build_query($data, '', '&');
+        $url = $this->getEndpoint() . '?' . http_build_query($data, '', '&');
         $httpResponse = $this->httpClient->get($url)->send();
 
         return $this->createResponse($httpResponse->getBody());

@@ -1,5 +1,7 @@
 <?php
+
 namespace Omnipay\AfterPay\Message;
+
 /**
  * Authorize Request
  *
