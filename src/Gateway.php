@@ -4,16 +4,19 @@ namespace Omnipay\AfterPay;
 
 use Omnipay\Common\AbstractGateway;
 
-/**
- * AfterPay Gateway
- */
 class Gateway extends AbstractGateway
 {
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'AfterPay';
     }
 
+    /**
+     * @return array
+     */
     public function getDefaultParameters()
     {
         return [
@@ -22,18 +25,26 @@ class Gateway extends AbstractGateway
         ];
     }
 
+    /**
+     * @return mixed
+     */
     public function getKey()
     {
         return $this->getParameter('key');
     }
 
+    /**
+     * @param $value
+     * @return $this
+     */
     public function setKey($value)
     {
         return $this->setParameter('key', $value);
     }
 
     /**
-     * @return Message\AuthorizeRequest
+     * @param array $parameters
+     * @return \Omnipay\AfterPay\Message\AuthorizeRequest
      */
     public function authorize(array $parameters = [])
     {
