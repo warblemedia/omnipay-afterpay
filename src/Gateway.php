@@ -59,13 +59,4 @@ class Gateway extends AbstractGateway
     {
         return $this->setParameter('merchantSecret', $value);
     }
-
-    /**
-     * @param array $parameters
-     * @return \Omnipay\AfterPay\Message\AuthorizeRequest
-     */
-    public function authorize(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\AfterPay\Message\AuthorizeRequest', $parameters);
-    }
 }

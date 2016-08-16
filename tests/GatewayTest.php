@@ -16,6 +16,5 @@ class GatewayTest extends GatewayTestCase
     public function setUp()
     {
         $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
-        $this->options = array();
     }
 }
