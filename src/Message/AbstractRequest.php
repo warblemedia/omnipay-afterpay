@@ -12,18 +12,37 @@ abstract class AbstractRequest extends BaseAbstractRequest
     /**
      * @return mixed
      */
-    public function getKey()
+    public function getMerchantId()
     {
-        return $this->getParameter('key');
+        return $this->getParameter('merchantId');
     }
 
     /**
-     * @param $value
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @param mixed $value
+     * @return $this
+     * @throws \Omnipay\Common\Exception\RuntimeException
      */
-    public function setKey($value)
+    public function setMerchantId($value)
     {
-        return $this->setParameter('key', $value);
+        return $this->setParameter('merchantId', $value);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMerchantSecret()
+    {
+        return $this->getParameter('merchantSecret');
+    }
+
+    /**
+     * @param mixed $value
+     * @return $this
+     * @throws \Omnipay\Common\Exception\RuntimeException
+     */
+    public function setMerchantSecret($value)
+    {
+        return $this->setParameter('merchantSecret', $value);
     }
 
     /**

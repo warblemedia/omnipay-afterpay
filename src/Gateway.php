@@ -20,26 +20,44 @@ class Gateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return array(
-            'key'      => '',
-            'testMode' => false,
+            'merchantId'     => '',
+            'merchantSecret' => '',
+            'testMode'       => false,
         );
     }
 
     /**
      * @return mixed
      */
-    public function getKey()
+    public function getMerchantId()
     {
-        return $this->getParameter('key');
+        return $this->getParameter('merchantId');
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @return $this
      */
-    public function setKey($value)
+    public function setMerchantId($value)
     {
-        return $this->setParameter('key', $value);
+        return $this->setParameter('merchantId', $value);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMerchantSecret()
+    {
+        return $this->getParameter('merchantSecret');
+    }
+
+    /**
+     * @param mixed $value
+     * @return $this
+     */
+    public function setMerchantSecret($value)
+    {
+        return $this->setParameter('merchantSecret', $value);
     }
 
     /**
