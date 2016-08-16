@@ -19,10 +19,10 @@ class Gateway extends AbstractGateway
      */
     public function getDefaultParameters()
     {
-        return [
+        return array(
             'key'      => '',
             'testMode' => false,
-        ];
+        );
     }
 
     /**
@@ -46,7 +46,7 @@ class Gateway extends AbstractGateway
      * @param array $parameters
      * @return \Omnipay\AfterPay\Message\AuthorizeRequest
      */
-    public function authorize(array $parameters = [])
+    public function authorize(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\AfterPay\Message\AuthorizeRequest', $parameters);
     }

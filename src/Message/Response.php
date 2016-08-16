@@ -15,8 +15,7 @@ class Response extends AbstractResponse
      */
     public function __construct(RequestInterface $request, $data)
     {
-        $this->request = $request;
-        $this->data = $data;
+        parent::__construct($request, $data);
     }
 
     /**
@@ -35,6 +34,7 @@ class Response extends AbstractResponse
         if (isset($this->data['reference'])) {
             return $this->data['reference'];
         }
-    }
 
+        return null;
+    }
 }
