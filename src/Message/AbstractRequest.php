@@ -100,6 +100,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
         $merchantId = $this->getMerchantId();
         $merchantSecret = $this->getMerchantSecret();
 
-        return 'Basic: ' . base64_encode($merchantId . ':' . $merchantSecret);
+        return 'Basic ' . base64_encode($merchantId . ':' . $merchantSecret);
     }
 }
