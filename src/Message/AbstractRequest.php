@@ -56,8 +56,10 @@ abstract class AbstractRequest extends BaseAbstractRequest
         $httpMethod = $this->getHttpMethod();
 
         $httpRequest = $this->httpClient->createRequest($httpMethod, $endpoint, null, $data);
-        $httpResponse = $httpRequest->send();
+        $httpRequest->addHeader('Authorization', $this->buildAuthorizationHeader());
 
+        $httpResponse = $httpRequest->send();
+        
         return $this->createResponse($httpResponse->getBody());
     }
 
@@ -84,5 +86,16 @@ abstract class AbstractRequest extends BaseAbstractRequest
     protected function createResponse($data)
     {
         return $this->response = new Response($this, $data);
+    }
+
+    /**
+     * @return string
+     */
+    protected function buildAuthorizationHeader()
+    {
+        $merchantId = $this->getMerchantId();
+        $merchantSecret = $this->getMerchantSecret();
+
+        return 'Basic: ' . base64_encode($merchantId . ':' . $merchantSecret);
     }
 }
