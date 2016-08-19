@@ -59,4 +59,20 @@ class Gateway extends AbstractGateway
     {
         return $this->setParameter('merchantSecret', $value);
     }
+
+    /**
+     * Configuration Request.
+     *
+     * Retrieves a list of payment configuration that includes payment types
+     * and valid payment ranges. A request to create an Order will be rejected
+     * if the total amount is not between (inclusive) the minimumAmount and
+     * minimumAmount.
+     *
+     * @param array $parameters
+     * @return \Omnipay\AfterPay\Message\ConfigurationRequest
+     */
+    public function configuration(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\AfterPay\Message\ConfigurationRequest', $parameters);
+    }
 }

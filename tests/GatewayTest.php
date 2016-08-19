@@ -17,4 +17,11 @@ class GatewayTest extends GatewayTestCase
     {
         $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
     }
+
+    public function testConfiguration()
+    {
+        $request = $this->gateway->configuration();
+
+        static::assertInstanceOf('Omnipay\AfterPay\Message\ConfigurationRequest', $request);
+    }
 }
