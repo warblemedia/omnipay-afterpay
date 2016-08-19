@@ -88,7 +88,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
     /**
      * @param \Guzzle\Http\Message\Response $httpResponse
-     * @return array|bool|float|int|string
+     * @return array
      */
     protected function parseResponseData(GuzzleResponse $httpResponse)
     {
