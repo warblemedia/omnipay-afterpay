@@ -2,6 +2,7 @@
 
 namespace Omnipay\AfterPay\Message;
 
+use Guzzle\Http\Message\Response as GuzzleResponse;
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 
 abstract class AbstractRequest extends BaseAbstractRequest
@@ -62,7 +63,9 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
         $httpResponse = $httpRequest->send();
 
-        $this->response = $this->createResponse($httpResponse->getBody());
+        $this->response = $this->createResponse(
+            $this->parseResponseData($httpResponse)
+        );
 
         return $this->response;
     }
@@ -81,6 +84,15 @@ abstract class AbstractRequest extends BaseAbstractRequest
     protected function getEndpoint()
     {
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
+    }
+
+    /**
+     * @param \Guzzle\Http\Message\Response $httpResponse
+     * @return array|bool|float|int|string
+     */
+    protected function parseResponseData(GuzzleResponse $httpResponse)
+    {
+        return $httpResponse->json();
     }
 
     /**
