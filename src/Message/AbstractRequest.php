@@ -59,8 +59,10 @@ abstract class AbstractRequest extends BaseAbstractRequest
         $httpRequest->addHeader('Authorization', $this->buildAuthorizationHeader());
 
         $httpResponse = $httpRequest->send();
-        
-        return $this->createResponse($httpResponse->getBody());
+
+        $this->response = $this->createResponse($httpResponse->getBody());
+
+        return $this->response;
     }
 
     /**
@@ -80,12 +82,12 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * @param $data
+     * @param mixed $data
      * @return \Omnipay\AfterPay\Message\Response
      */
     protected function createResponse($data)
     {
-        return $this->response = new Response($this, $data);
+        return new Response($this, $data);
     }
 
     /**
