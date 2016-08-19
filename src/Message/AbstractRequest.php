@@ -56,6 +56,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
         $httpMethod = $this->getHttpMethod();
 
         $httpRequest = $this->httpClient->createRequest($httpMethod, $endpoint, null, $data);
+        $httpRequest->getCurlOptions()->set(CURLOPT_SSLVERSION, 6); // CURL_SSLVERSION_TLSv1_2
         $httpRequest->addHeader('Authorization', $this->buildAuthorizationHeader());
 
         $httpResponse = $httpRequest->send();
