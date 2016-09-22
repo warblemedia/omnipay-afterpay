@@ -68,12 +68,12 @@ class Gateway extends AbstractGateway
      * if the total amount is not between (inclusive) the minimumAmount and
      * minimumAmount.
      *
-     * @param array $parameters
+     * @param array $options
      * @return \Omnipay\AfterPay\Message\ConfigurationRequest
      */
-    public function configuration(array $parameters = array())
+    public function configuration(array $options = array())
     {
-        return $this->createRequest('\Omnipay\AfterPay\Message\ConfigurationRequest', $parameters);
+        return $this->createRequest('\Omnipay\AfterPay\Message\ConfigurationRequest', $options);
     }
 
     /**
