@@ -17,4 +17,12 @@ class CompletePurchaseRequest extends AbstractRequest
             'merchantReference' => $this->getTransactionReference(),
         );
     }
+
+    /**
+     * @return string
+     */
+    public function getEndpoint()
+    {
+        return parent::getEndpoint() . '/payments/capture';
+    }
 }
