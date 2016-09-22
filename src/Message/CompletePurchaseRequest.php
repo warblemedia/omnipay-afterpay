@@ -12,6 +12,9 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     public function getData()
     {
-        // TODO: Implement getData() method.
+        return array(
+            'token'             => $this->httpRequest->get('orderToken'),
+            'merchantReference' => $this->getTransactionReference(),
+        );
     }
 }
