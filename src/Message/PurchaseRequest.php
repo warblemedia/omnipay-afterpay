@@ -2,6 +2,8 @@
 
 namespace Omnipay\AfterPay\Message;
 
+use Omnipay\Common\Exception\InvalidRequestException;
+
 class PurchaseRequest extends AbstractRequest
 {
     /**
@@ -9,10 +11,80 @@ class PurchaseRequest extends AbstractRequest
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
      * @return mixed
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getData()
     {
-        // TODO: Implement getData() method.
+        /** @var \Omnipay\Common\CreditCard $card */
+        $card = $this->getCard();
+
+        $data = array(
+            'totalAmount'       => array(
+                'amount'   => $this->getAmount(),
+                'currency' => $this->getCurrency(),
+            ),
+            'consumer'          => array(
+                'givenNames'  => $card->getFirstName(),
+                'surname'     => $card->getLastName(),
+                'email'       => $card->getEmail(),
+                'phoneNumber' => $card->getPhone(),
+            ),
+            'billing'           => array(
+                'name'        => $card->getBillingName(),
+                'line1'       => $card->getBillingAddress1(),
+                'line2'       => $card->getBillingAddress2(),
+                'suburb'      => $card->getBillingCity(),
+                'state'       => $card->getBillingState(),
+                'postcode'    => $card->getBillingPostcode(),
+                'countryCode' => $card->getBillingCountry(),
+                'phoneNumber' => $card->getBillingPhone(),
+            ),
+            'shipping'          => array(
+                'name'        => $card->getShippingName(),
+                'line1'       => $card->getShippingAddress1(),
+                'line2'       => $card->getShippingAddress2(),
+                'suburb'      => $card->getShippingCity(),
+                'state'       => $card->getShippingState(),
+                'postcode'    => $card->getShippingPostcode(),
+                'countryCode' => $card->getShippingCountry(),
+                'phoneNumber' => $card->getShippingPhone(),
+            ),
+            'items'             => $this->getItemData(),
+            'merchant'          => array(
+                'redirectConfirmUrl' => $this->getReturnUrl(),
+                'redirectCancelUrl'  => $this->getCancelUrl(),
+            ),
+            'merchantReference' => $this->getTransactionReference(),
+        );
+
+        return $data;
+    }
+
+    /**
+     * @return array
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
+    public function getItemData()
+    {
+        $items = $this->getItems();
+        $itemArray = array();
+
+        if ($items !== null) {
+            /** @var \Omnipay\Common\ItemInterface $item */
+            foreach ($items as $item) {
+                $itemArray[] = array(
+                    'name'     => $item->getName(),
+                    'quantity' => $item->getQuantity(),
+                    'price'    => array(
+                        'amount'   => $this->formatPrice($item->getPrice()),
+                        'currency' => $this->getCurrency(),
+                    ),
+                );
+            }
+        }
+
+        return $itemArray;
+    }
 
     /**
      * @return string
@@ -21,5 +93,28 @@ class PurchaseRequest extends AbstractRequest
     {
         return parent::getEndpoint() . '/orders';
     }
+
+    /**
+     * @param string|float|int $amount
+     * @return null|string
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
+    protected function formatPrice($amount)
+    {
+        if ($amount) {
+            if (!is_float($amount) &&
+                $this->getCurrencyDecimalPlaces() > 0 &&
+                false === strpos((string) $amount, '.')
+            ) {
+                throw new InvalidRequestException(
+                    'Please specify amount as a string or float, ' .
+                    'with decimal places (e.g. \'10.00\' to represent $10.00).'
+                );
+            }
+
+            return $this->formatCurrency($amount);
+        }
+
+        return null;
     }
 }
