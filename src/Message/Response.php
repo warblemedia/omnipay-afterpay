@@ -26,16 +26,4 @@ class Response extends AbstractResponse
         return !$this->isRedirect() &&
                !array_key_exists('errorCode', $this->data);
     }
-
-    /**
-     * @return mixed
-     */
-    public function getTransactionReference()
-    {
-        if (isset($this->data['reference'])) {
-            return $this->data['reference'];
-        }
-
-        return null;
-    }
 }
