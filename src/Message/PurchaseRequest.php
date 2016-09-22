@@ -51,8 +51,9 @@ class PurchaseRequest extends AbstractRequest
             ),
             'items'             => $this->getItemData(),
             'merchant'          => array(
-                'redirectConfirmUrl' => $this->getReturnUrl(),
-                'redirectCancelUrl'  => $this->getCancelUrl(),
+                // Need to append dummy parameter otherwise AfterPay breaks the hash param on return
+                'redirectConfirmUrl' => $this->getReturnUrl() . '&_fix=',
+                'redirectCancelUrl'  => $this->getCancelUrl() . '&_fix=',
             ),
             'merchantReference' => $this->getTransactionReference(),
         );
