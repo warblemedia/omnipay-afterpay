@@ -75,4 +75,26 @@ class Gateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\AfterPay\Message\ConfigurationRequest', $parameters);
     }
+
+    /**
+     * Authorize and immediately capture an amount on the customers card
+     *
+     * @param array $options
+     * @return \Omnipay\Common\Message\ResponseInterface
+     */
+    public function purchase(array $options = array())
+    {
+        // TODO: Implement purchase() method.
+    }
+
+    /**
+     * Handle return from off-site gateways after purchase
+     *
+     * @param array $options
+     * @return \Omnipay\Common\Message\ResponseInterface
+     */
+    public function completePurchase(array $options = array())
+    {
+        // TODO: Implement completePurchase() method.
+    }
 }
