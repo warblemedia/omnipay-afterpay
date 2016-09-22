@@ -84,7 +84,7 @@ class Gateway extends AbstractGateway
      */
     public function purchase(array $options = array())
     {
-        // TODO: Implement purchase() method.
+        return $this->createRequest('\Omnipay\AfterPay\Message\PurchaseRequest', $options);
     }
 
     /**
