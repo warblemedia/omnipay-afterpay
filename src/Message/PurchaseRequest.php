@@ -13,5 +13,13 @@ class PurchaseRequest extends AbstractRequest
     public function getData()
     {
         // TODO: Implement getData() method.
+
+    /**
+     * @return string
+     */
+    public function getEndpoint()
+    {
+        return parent::getEndpoint() . '/orders';
+    }
     }
 }
