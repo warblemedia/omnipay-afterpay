@@ -2,8 +2,56 @@
 
 namespace Omnipay\AfterPay\Message;
 
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
+
 class PurchaseResponse extends Response
 {
+    protected $liveScript = 'https://www.secure-afterpay.com.au/afterpay.js';
+    protected $testScript = 'https://www-sandbox.secure-afterpay.com.au/afterpay.js';
+
+    /**
+     * @return bool
+     */
+    public function isRedirect()
+    {
+        return true;
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getRedirectResponse()
+    {
+        $output = <<<EOF
+<html>
+<head>
+    <title>Redirecting...</title>
+    <script src="%s" async></script>
+</head>
+<body>
+    <script>
+    window.onload = function() {
+        AfterPay.init();
+        AfterPay.redirect({token: "%s"});
+    };
+    </script>
+</body>
+</html>
+EOF;
+
+        $output = sprintf($output, $this->getScriptUrl(), $this->getToken());
+
+        return HttpResponse::create($output);
+    }
+
+    /**
+     * @return string
+     */
+    public function getScriptUrl()
+    {
+        return $this->getRequest()->getTestMode() ? $this->testScript : $this->liveScript;
+    }
+
     /**
      * @return string|null
      */
