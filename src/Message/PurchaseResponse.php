@@ -49,7 +49,13 @@ EOF;
      */
     public function getScriptUrl()
     {
-        return $this->getRequest()->getTestMode() ? $this->testScript : $this->liveScript;
+        $request = $this->getRequest();
+
+        if ($request instanceof PurchaseRequest && $request->getTestMode()) {
+            return $this->testScript;
+        }
+
+        return $this->liveScript;
     }
 
     /**
