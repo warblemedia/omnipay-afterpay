@@ -95,6 +95,15 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
+     * @param mixed $data
+     * @return \Omnipay\AfterPay\Message\Response
+     */
+    protected function createResponse($data)
+    {
+        return new PurchaseResponse($this, $data);
+    }
+
+    /**
      * @param string|float|int $amount
      * @return null|string
      * @throws \Omnipay\Common\Exception\InvalidRequestException
