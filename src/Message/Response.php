@@ -23,7 +23,8 @@ class Response extends AbstractResponse
      */
     public function isSuccessful()
     {
-        return !array_key_exists('errorCode', $this->data);
+        return !$this->isRedirect() &&
+               !array_key_exists('errorCode', $this->data);
     }
 
     /**
