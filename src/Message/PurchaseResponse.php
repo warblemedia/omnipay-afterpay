@@ -11,4 +11,12 @@ class PurchaseResponse extends Response
     {
         return isset($this->data['token']) ? $this->data['token'] : null;
     }
+
+    /**
+     * @return string
+     */
+    public function getTransactionReference()
+    {
+        return $this->getToken();
+    }
 }
