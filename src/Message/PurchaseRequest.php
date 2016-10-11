@@ -18,6 +18,15 @@ class PurchaseRequest extends AbstractRequest
         /** @var \Omnipay\Common\CreditCard $card */
         $card = $this->getCard();
 
+        // Normalize consumer names as AfterPay will reject the request with a missing surname
+        $givenNames = $card->getFirstName();
+        $surname = $card->getLastName();
+
+        if (empty($surname) && false !== $pos = strrpos($givenNames, ' ')) {
+            $surname = substr($givenNames, $pos + 1);
+            $givenNames = substr($givenNames, 0, $pos);
+        }
+
         // Append fix query param to urls with existing query params as AfterPay appends their
         // data in a way that can break the base url
         $returnUrl = $this->getReturnUrl();
@@ -37,8 +46,8 @@ class PurchaseRequest extends AbstractRequest
                 'currency' => $this->getCurrency(),
             ),
             'consumer'          => array(
-                'givenNames'  => $card->getFirstName(),
-                'surname'     => $card->getLastName(),
+                'givenNames'  => $givenNames,
+                'surname'     => $surname,
                 'email'       => $card->getEmail(),
                 'phoneNumber' => $card->getPhone(),
             ),
