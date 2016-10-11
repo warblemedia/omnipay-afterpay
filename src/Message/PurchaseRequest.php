@@ -18,6 +18,19 @@ class PurchaseRequest extends AbstractRequest
         /** @var \Omnipay\Common\CreditCard $card */
         $card = $this->getCard();
 
+        // Append fix query param to urls with existing query params as AfterPay appends their
+        // data in a way that can break the base url
+        $returnUrl = $this->getReturnUrl();
+        $cancelUrl = $this->getCancelUrl();
+
+        if (strpos($returnUrl, '?') !== false) {
+            $returnUrl .= '&_fix=';
+        }
+
+        if (strpos($cancelUrl, '?') !== false) {
+            $cancelUrl .= '&_fix=';
+        }
+
         $data = array(
             'totalAmount'       => array(
                 'amount'   => $this->getAmount(),
@@ -52,8 +65,8 @@ class PurchaseRequest extends AbstractRequest
             'items'             => $this->getItemData(),
             'merchant'          => array(
                 // Need to append dummy parameter otherwise AfterPay breaks the hash param on return
-                'redirectConfirmUrl' => $this->getReturnUrl() . '&_fix=',
-                'redirectCancelUrl'  => $this->getCancelUrl() . '&_fix=',
+                'redirectConfirmUrl' => $returnUrl,
+                'redirectCancelUrl'  => $cancelUrl,
             ),
             'merchantReference' => $this->getTransactionReference(),
         );
